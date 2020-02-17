@@ -23,7 +23,7 @@ void draw() {
   
   //removing the first two stones
   Points temp1 = board.point.get(35);
-  temp1.setC(30);
+  temp1.setC(2);
   Points temp2 = board.point.get(36);
   temp2.setC(2);
   

@@ -68,8 +68,8 @@ class Board {
   //marking orange for the possible moves 
   void markOrange(Points temp){
     stroke(204, 102, 0);
-    fill(255);
-    rect(temp.x*50+5,temp.y*50+5,15,15);
+    fill(204, 102, 0);
+    rect(temp.x*50,temp.y*50,50,50);
   }
   
   //finding the stone when button is clicked 
@@ -114,7 +114,6 @@ class Board {
   void markMoves(Points p) {
     for (int i =0; i < point.size(); ++i) {
       Points temp = point.get(i);
-      
       //there is a space
       if (temp.c == 2) {
         //check if the space is not in first row or last row for vertical move
@@ -123,12 +122,15 @@ class Board {
            if (!((temp.y == 0 & p.x ==temp.x )|| (temp.y == 7 && p.x ==temp.x ))) {
              //check if there is a gap between space and stone vertically
              if ( ((temp.x -p.x == 2) && (temp.y==p.y)) || ((p.x-temp.x==2)&& (temp.y==p.y))) {
-               //check if the gap is not space : THIS NEEDED TO BE IMPLEMENTED 
+               //check if the gap is not space : THIS NEEDED TO BE IMPLEMENTED                
                temp.setP(1);
+               print(temp.x + " " +temp.y);
              }
              //check if there is a gap between space and stone horizontally
              else if (((temp.y-p.y ==2)&& (temp.x==p.x))|| ((p.y-temp.y ==2)&& (temp.x==p.x))) {
                temp.setP(1);
+               print(temp.x + " " +temp.y);
+
              }
            }
         }
