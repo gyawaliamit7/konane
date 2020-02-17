@@ -43,7 +43,7 @@ class Board {
         makeBlackStone(temp);
       }
       //otherwise we will remove the stone
-      else {
+      else if (temp.c == 2){
         removeStone(temp);
       }
     }
@@ -110,6 +110,33 @@ class Board {
     rect(temp.x*50,temp.y*50, 50, 50);;
   }
   
+  //removing left stone 
+  void removeLeftStone(Points p) {
+    for ( int i = 0; i <point.size(); ++i) {
+      Points temp = point.get(i);
+      //we have found have an space
+      if (temp.p == 1) {
+        Points temp2 = point.get(i+16);
+          if (temp2.x == p.x) {
+            temp.setP(0);
+            Points temp3 = point.get(i+8);
+            if (temp2.c == 0) {
+              temp.setC(0);
+            }
+            else if (temp2.c ==1) {
+               temp.setC(1);
+
+            }
+            //making the move space
+            temp3.setC(2);
+            temp2.setC(2);
+          }
+      }
+      fillStones();
+      
+    }
+  }
+  
   //finding possible list of moves for given point
   void markMoves(Points p) {
     for (int i =0; i < point.size(); ++i) {
@@ -122,7 +149,7 @@ class Board {
            if (!((temp.y == 0 & p.x ==temp.x )|| (temp.y == 7 && p.x ==temp.x ))) {
              //check if there is a gap between space and stone vertically
              if ( ((temp.x -p.x == 2) && (temp.y==p.y)) || ((p.x-temp.x==2)&& (temp.y==p.y))) {
-               //check if the gap is not space : THIS NEEDED TO BE IMPLEMENTED                
+               //check if the gap is not space : THIS NEEDED TO BE IMPLEMENTED 
                temp.setP(1);
                print(temp.x + " " +temp.y);
              }

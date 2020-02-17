@@ -4,34 +4,41 @@ Board board = new Board();
 //for making turns of black and white buttons
 boolean blackTurn = true;
 boolean whiteTurn = false;
+boolean markingMode = false;
 
 //to display text of whose turn it is 
-String whoseTurn = " ";
+String whoseTurn = "Black Turn";
+
+//to capture current point to move for 
+Points currentPoint = new Points();
 
 //list of all the possible moves
 ArrayList<Points> possibleMove = new ArrayList<Points>();
 
 void setup() {
-  size(500,500);
+  size(600,500);
   background(0);
   board.createStone();
   board.makeBoxes();
-}
-
-void draw() {
   board.fillStones();
-  
   //removing the first two stones
   Points temp1 = board.point.get(35);
   temp1.setC(2);
   Points temp2 = board.point.get(36);
   temp2.setC(2);
-  
-  //displaying move button 
-  moveButton();
+}
+
+void draw() {
+  board.fillStones();
   
   //displaying whose turn message
   displayMessage(whoseTurn);
+  
+  //displaying left right up down button
+  leftButton();
+  rightButton();
+  upButton();
+  downButton();
   
   //marking different color for the possible Point
   board.fillPossibleMoves();
@@ -41,59 +48,142 @@ void draw() {
 
 //listening to the mouse Click
 void mouseClicked() {
-   board.unmarkMoves();
-  if (blackTurn) {
+  //to make a left movement
+  if (leftMouseOver()) {
+    board.removeLeftStone(currentPoint); 
+  }
+   if (blackTurn) {
+    whoseTurn = "Black Turn";
+    board.unmarkMoves();
     Points temp = board.findStone(mouseX, mouseY);
     //black has been selected
     if (temp == null)
       print("cannot be null");
     else if (temp.c == 1) {
+      //setting up current point as temp
+      currentPoint = temp;
       //finding possibleMoves 
       board.markMoves(temp);
+      markingMode = true;
+      blackTurn = false;
+      whiteTurn = true;
     }
     //black is not selected 
-    else 
-      whoseTurn = "Black Turn";
-   // blackTurn = false;
-   // whiteTurn = true;
+  }
+  else if (whiteTurn) {
+    whoseTurn = "White Turn";
+    board.unmarkMoves();
+    Points temp = board.findStone(mouseX, mouseY);
+    //black has been selected
+    if (temp == null)
+      print("cannot be null");
+    else if (temp.c == 0) {
+      //setting up current point as temp
+      currentPoint = temp;
+      //finding possibleMoves 
+      board.markMoves(temp);
+      markingMode = true;
+      blackTurn = true;
+      whiteTurn = false;
+    }
+    //white is not selected 
   }
 }
 
 
 void displayMessage (String x ) {
+  fill(0);
+  rect(485,80,90,15);
   textAlign(CENTER, CENTER);
   fill(255);
-  stroke(200);
-  text(x, 440, 87);
+  text(x, 520, 87);
   
 }
 
-//checking if mouse is Over 
-boolean mouseOver() {
-  if (mouseX > 420 && mouseX < (480) && mouseY > 30 && mouseY < (45)) {
+
+
+//making left Button
+void leftButton() {
+    if (leftMouseOver()) 
+      fill(203,33,103);
+    else 
+      fill(123,63,123);
+    stroke(250);
+    rect(420,200,60,15);
+    textAlign(CENTER, CENTER);
+    fill(255);
+    text("Left", 445, 206);
+}
+
+//checking if mouse is Over Left Button
+boolean leftMouseOver() {
+  if (mouseX > 420 && mouseX < (480) && mouseY > 200 && mouseY < (215)) {
     return true;
   }
   return false;
 }
 
-//making move button
-void moveButton() {
-  if (mouseOver()) {
-    fill(123,33,123);
+
+
+
+//making right Button
+void rightButton() {
+    if (rightMouseOver()) 
+      fill(203,33,103);
+    else 
+      fill(123,63,123);
     stroke(250);
-    rect(420,30,60,15);
+    rect(520,200,60,15);
     textAlign(CENTER, CENTER);
     fill(255);
-    text("Move", 445, 37);
+    text("Right", 545, 206);
+}
+
+//checking if mouse is Over Right Button
+boolean rightMouseOver() {
+  if (mouseX > 520 && mouseX < 580 && mouseY > 200 && mouseY < (215)) {
+    return true;
   }
+  return false;
+}
+
+//making up button 
+void upButton() {
+    if (upMouseOver()) 
+      fill(203,33,103);
+    else 
+      fill(123,63,123);
+    stroke(250);
+    rect(480,150,60,15);
+    textAlign(CENTER, CENTER);
+    fill(255);
+    text("Up", 505, 156);
+}
+
+//checking if mouse is Over Up Button
+boolean upMouseOver() {
+  if (mouseX > 480 && mouseX < 540 && mouseY > 150 && mouseY < (165)) {
+    return true;
+  }
+  return false;
+}
+
+void downButton() {
+  if (downMouseOver()) 
+    fill(203,33,103);
   else 
-  {
-    fill(255);
-    stroke(250);
-    rect(420,30,60,15);
-    textAlign(CENTER, CENTER);
-    fill(0);
-    text("Move", 445, 37);
+    fill(123,63,123);
+  stroke(250);
+  rect(480,250,60,15);
+  textAlign(CENTER, CENTER);
+  fill(255);
+  text("Down", 505, 256);
+}
+
+//checking if mouse is Over Odwn Button
+boolean downMouseOver() {
+  if (mouseX > 480 && mouseX < (540) && mouseY > 250 && mouseY < (265)) {
+    return true;
   }
-  
+  return false;
 }
