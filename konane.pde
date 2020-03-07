@@ -51,6 +51,26 @@ void mouseClicked() {
   //to make a left movement
   if (leftMouseOver()) {
     board.removeLeftStone(currentPoint); 
+    blackTurn = !blackTurn;
+    whiteTurn = !whiteTurn;
+  }
+  
+  if (rightMouseOver()) {
+    board.removeRightStone(currentPoint);
+    blackTurn = !blackTurn;
+    whiteTurn = !whiteTurn;
+  }
+  
+  if (upMouseOver()) {
+    board.removeUpStone(currentPoint);
+    blackTurn = !blackTurn;
+    whiteTurn = !whiteTurn;
+  }
+  
+  if (downMouseOver()) {
+    board.removeDownStone(currentPoint);
+    blackTurn = !blackTurn;
+    whiteTurn = !whiteTurn;
   }
    if (blackTurn) {
     whoseTurn = "Black Turn";
@@ -65,8 +85,7 @@ void mouseClicked() {
       //finding possibleMoves 
       board.markMoves(temp);
       markingMode = true;
-      blackTurn = false;
-      whiteTurn = true;
+
     }
     //black is not selected 
   }
@@ -83,8 +102,6 @@ void mouseClicked() {
       //finding possibleMoves 
       board.markMoves(temp);
       markingMode = true;
-      blackTurn = true;
-      whiteTurn = false;
     }
     //white is not selected 
   }

@@ -133,7 +133,84 @@ class Board {
           }
       }
       fillStones();
-      
+    }
+  }
+  
+  //removing right Stone 
+  void removeRightStone(Points p) {
+    for ( int i = 0; i <point.size(); ++i) {
+      Points temp = point.get(i);
+      //we have found have an space
+      if (temp.p == 1) {
+        Points temp2 = point.get(i-16);
+          if (temp2.x == p.x) {
+            temp.setP(0);
+            Points temp3 = point.get(i-8);
+            if (temp2.c == 0) {
+              temp.setC(0);
+            }
+            else if (temp2.c ==1) {
+               temp.setC(1);
+
+            }
+            //making the move space
+            temp3.setC(2);
+            temp2.setC(2);
+          }
+      }
+      fillStones();
+    }
+  }
+  
+  //removing up stone
+  void removeUpStone(Points p) {
+    for ( int i = 0; i <point.size(); ++i) {
+      Points temp = point.get(i);
+      //we have found have an space
+      if (temp.p == 1) {
+        Points temp2 = point.get(i+2);
+          if (temp2.x == p.x) {
+            temp.setP(0);
+            Points temp3 = point.get(i+1);
+            if (temp2.c == 0) {
+              temp.setC(0);
+            }
+            else if (temp2.c ==1) {
+               temp.setC(1);
+
+            }
+            //making the move space
+            temp3.setC(2);
+            temp2.setC(2);
+          }
+      }
+      fillStones();
+    }
+  }
+  
+  //removing down stone
+  void removeDownStone(Points p) {
+    for ( int i = 0; i <point.size(); ++i) {
+      Points temp = point.get(i);
+      //we have found have an space
+      if (temp.p == 1) {
+        Points temp2 = point.get(i-2);
+          if (temp2.x == p.x) {
+            temp.setP(0);
+            Points temp3 = point.get(i-1);
+            if (temp2.c == 0) {
+              temp.setC(0);
+            }
+            else if (temp2.c ==1) {
+               temp.setC(1);
+
+            }
+            //making the move space
+            temp3.setC(2);
+            temp2.setC(2);
+          }
+      }
+      fillStones();
     }
   }
   
@@ -144,24 +221,58 @@ class Board {
       //there is a space
       if (temp.c == 2) {
         //check if the space is not in first row or last row for vertical move
-        if (!((temp.x == 0 & p.y ==temp.y )|| (temp.x == 7 && p.y ==temp.y ))) {
+       // if (!((temp.x == 0 & p.y ==temp.y )|| (temp.x == 7 && p.y ==temp.y ))) {
            //check if the space is not in first row or last row for horizontal move
-           if (!((temp.y == 0 & p.x ==temp.x )|| (temp.y == 7 && p.x ==temp.x ))) {
+         //  if (!((temp.y == 0 & p.x ==temp.x )|| (temp.y == 7 && p.x ==temp.x ))) {
              //check if there is a gap between space and stone vertically
              if ( ((temp.x -p.x == 2) && (temp.y==p.y)) || ((p.x-temp.x==2)&& (temp.y==p.y))) {
                //check if the gap is not space : THIS NEEDED TO BE IMPLEMENTED 
-               temp.setP(1);
+               //needed to check up down left right 
+                 //if vertical 
+               if (temp.y == p.y) {
+                 // checking up 
+                 if ((temp.x - p.x) < 0) {
+                   if (point.get(i+8).c < 2) {
+                     temp.setP(1);
+                   }
+                 }
+                 //checking down
+
+                 else if ((temp.x - p.x) > 0){
+                   if (point.get(i-8).c < 2) {
+                     temp.setP(1);
+                   }
+                 }
+                 
+                 
+               }
+              // temp.setP(1);
                print(temp.x + " " +temp.y);
              }
              //check if there is a gap between space and stone horizontally
              else if (((temp.y-p.y ==2)&& (temp.x==p.x))|| ((p.y-temp.y ==2)&& (temp.x==p.x))) {
-               temp.setP(1);
+                   //if  vertical
+                  if ( temp.x == p.x) {
+                 //checking left
+                 if (temp.y - p.y > 0) {
+                   if (point.get(i-1).c != 2) {
+                     temp.setP(1);
+                   }
+                 }
+                 //checking right
+                 else if (temp.y - p.y < 0){
+                   if (point.get(i+1).c != 2) {
+                     temp.setP(1);
+                   }                   
+                 }
+               }
+              // temp.setP(1);
                print(temp.x + " " +temp.y);
 
              }
            }
-        }
-      }
+        // }
+     // }
     }
   }
    
