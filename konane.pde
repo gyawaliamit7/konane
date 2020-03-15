@@ -8,12 +8,18 @@ boolean markingMode = false;
 
 //to display text of whose turn it is 
 String whoseTurn = "Black Turn";
+String gameChecker = "Going Good";
 
 //to capture current point to move for 
 Points currentPoint = new Points();
 
 //list of all the possible moves
 ArrayList<Points> possibleMove = new ArrayList<Points>();
+
+//list of boards
+BoardList boardList = new BoardList();
+
+int count = 0;
 
 void setup() {
   size(600,500);
@@ -29,10 +35,11 @@ void setup() {
 }
 
 void draw() {
+  makeAIMove();
   board.fillStones();
-  
   //displaying whose turn message
   displayMessage(whoseTurn);
+  displayError(gameChecker);
   
   //displaying left right up down button
   leftButton();
@@ -42,6 +49,7 @@ void draw() {
   
   //marking different color for the possible Point
   board.fillPossibleMoves();
+   count  = board.caculateSEF();
   
 }
 
@@ -50,27 +58,47 @@ void draw() {
 void mouseClicked() {
   //to make a left movement
   if (leftMouseOver()) {
-    board.removeLeftStone(currentPoint); 
-    blackTurn = !blackTurn;
-    whiteTurn = !whiteTurn;
+    if (board.removeLeftStone(currentPoint)){
+     gameChecker = "Going good";
+      blackTurn = !blackTurn;
+      whiteTurn = !whiteTurn;
+    }
+    else 
+      gameChecker = "Wrong Move";
   }
   
   if (rightMouseOver()) {
-    board.removeRightStone(currentPoint);
-    blackTurn = !blackTurn;
-    whiteTurn = !whiteTurn;
+    if (board.removeRightStone(currentPoint)) {
+      gameChecker = "Going good";
+      blackTurn = !blackTurn;
+      whiteTurn = !whiteTurn;
+    }
+    else {
+      gameChecker = "Wrong Move";
+
+    }
   }
   
   if (upMouseOver()) {
-    board.removeUpStone(currentPoint);
-    blackTurn = !blackTurn;
-    whiteTurn = !whiteTurn;
+    if (board.removeUpStone(currentPoint)) {
+      gameChecker = "Going good";
+      blackTurn = !blackTurn;
+      whiteTurn = !whiteTurn;
+    }
+    else {
+       gameChecker = "Wrong Move";
+    }
   }
   
   if (downMouseOver()) {
-    board.removeDownStone(currentPoint);
-    blackTurn = !blackTurn;
-    whiteTurn = !whiteTurn;
+    if (board.removeDownStone(currentPoint)) {
+      gameChecker = "Going good";
+      blackTurn = !blackTurn;
+      whiteTurn = !whiteTurn;
+    }
+    else 
+       gameChecker = "Wrong Move";
+
   }
    if (blackTurn) {
     whoseTurn = "Black Turn";
@@ -89,7 +117,8 @@ void mouseClicked() {
     }
     //black is not selected 
   }
-  else if (whiteTurn) {
+  //else if (whiteTurn) {
+    /*
     whoseTurn = "White Turn";
     board.unmarkMoves();
     Points temp = board.findStone(mouseX, mouseY);
@@ -103,10 +132,31 @@ void mouseClicked() {
       board.markMoves(temp);
       markingMode = true;
     }
+    */
     //white is not selected 
-  }
+    
+ // }
 }
 
+void makeAIMove() {
+  if (whiteTurn) {
+    whoseTurn = "white Turn";
+   board.unmarkMoves();
+    Board prevBoard = boardList.storeBoard(board);
+    //print("The original SEF value is "+ boardList.sefValue);
+    if (prevBoard == null) {
+     gameChecker = "Invalid";
+     print("We are in an invalid move");
+    }
+     
+    else {
+      blackTurn = !blackTurn;
+      whiteTurn = !whiteTurn;
+      print("We are in a move");
+      print ("The static value is" +  prevBoard.caculateSEF());
+    }
+  }
+}
 
 void displayMessage (String x ) {
   fill(0);
@@ -114,6 +164,15 @@ void displayMessage (String x ) {
   textAlign(CENTER, CENTER);
   fill(255);
   text(x, 520, 87);
+  
+}
+
+void displayError (String x ) {
+  fill(0);
+  rect(485,100,90,15);
+  textAlign(CENTER, CENTER);
+  fill(255,200,240);
+  text(x, 520, 107);
   
 }
 
